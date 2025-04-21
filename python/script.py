@@ -1,9 +1,13 @@
 import requests
 import json
+from dotenv import load_dotenv
+import os
+
+# Sacuvaj sledeci put output kojim mozes da simuliras ponasanje da ne pucas bezveze pokusaje
 
 def fetch_weather_data(api_key):
     """
-    Fetches weather data from Wunderground API.
+    Fetches weather data from Wunderground (still not this one) API.
 
     Args:
         api_key (str): The API key for the weather service.
@@ -11,9 +15,12 @@ def fetch_weather_data(api_key):
         dict: A dictionary containing the weather data, or None if an error occurred.
     """
 
+    lat = 45.58
+    lon = 9.5
+
     try:
         # Construct the API URL
-        api_url = api_key # ovo ne valja!!!
+        api_url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
 
         # Make the API request
         response = requests.get(api_url)
@@ -30,12 +37,59 @@ def fetch_weather_data(api_key):
         print (f"Error parsing JSON response: {e}")
         return None
 
+def get_api_key():
+    load_dotenv()
+    api_key = os.getenv("API_KEY")
+    return api_key
 
+
+def extract_data(weather_data):
+    """
+    Extracts relevant weather data from the API response.
+
+    Args:
+        weather_data (dict): A dictionary containing the weather data.
+
+    Returns:
+        dict: A dictionary containing the extracted data, or None if input is invalid.
+    """
+
+    if not isinstance(weather_data, dict):
+        print("Error: Invalid weather data format.")
+        return None
+
+    try:
+        # Extract data
+        #location_name = weather_data['location']['name']
+        lat = weather_data.get("coord", {}).get("lat", "N/A")
+        lon = weather_data.get("coord", {}).get("lon", "N/A")
+        temperature_c = weather_data.get("main", {}).get("temp", "N/A")
+        condition_text = weather_data.get("weather", {})[0].get("description", "N/A")
+
+        # Create a dictionary with the extracted data
+        extracted_data = {
+            #'location_name': location_name,
+            'lat': lat,
+            'lon': lon,
+            'temperature_c': temperature_c,
+            'condition_text': condition_text
+        }
+
+        return extracted_data
+
+    except KeyError as e:
+        print(f"Error: Missing key in weather data: {e}")
+        return None
+    except TypeError as e:
+        print(f"Error: Type error accessing weather data: {e}")
+        return None
 
 
 
 def main():
-    print("Hello!")
+    data = fetch_weather_data(get_api_key())
+    extract_data(data)
+
 
 if __name__ == "__main__":
     main()
