@@ -2,8 +2,22 @@ import requests
 import json
 from dotenv import load_dotenv
 import os
+from supabase import create_client, Client
 
-# Sacuvaj sledeci put output kojim mozes da simuliras ponasanje da ne pucas bezveze pokusaje
+# Load environment variables from .env file
+load_dotenv()
+
+# Supabase setup
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+# Initialize Supabase client
+if SUPABASE_URL and SUPABASE_KEY:
+    supabase_client: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+else:
+    print("Error: SUPABASE_URL or SUPABASE_KEY is not set.")
+    supabase_client = None
+
 
 def fetch_weather_data(api_key):
     """
@@ -38,8 +52,7 @@ def fetch_weather_data(api_key):
         return None
 
 def get_api_key():
-    load_dotenv()
-    api_key = os.getenv("API_KEY")
+    api_key = os.environ.get("API_KEY")
     return api_key
 
 
@@ -75,6 +88,10 @@ def extract_data(weather_data):
             'condition_text': condition_text
         }
 
+        ##
+        print(extracted_data)
+        ##
+
         return extracted_data
 
     except KeyError as e:
@@ -84,11 +101,48 @@ def extract_data(weather_data):
         print(f"Error: Type error accessing weather data: {e}")
         return None
 
+def store_weather_data(weather_data):
+    """
+    Stores weather data in the Supabase database.
+
+    Args:
+        weather_data (dict): A dictionary containing the weather data.
+    """
+
+    if not supabase_client:
+        print("Error: Supabase client is not initialized.")
+        return
+
+    table_name = "weather_data"
+
+    try:
+        # Insert the data into the Supabase table
+        response = supabase_client.table(table_name).insert(weather_data).execute()
+
+        ##
+        print(f"Supabase response: {response}")
+        ##
+
+        if response.data:
+            print("Data successfully stored in Supabase.")
+        else:
+            print("Error inserting data into Supabase.")
+    except Exception as e:
+        print(f"An error occured while storing data: {e}")
 
 
 def main():
     data = fetch_weather_data(get_api_key())
-    extract_data(data)
+    if data:
+        extracted_data = extract_data(data)
+
+        if extracted_data:
+            store_weather_data(extracted_data)
+
+        else:
+            print("Failed to extract weather data.")
+    else:
+        print("Failed to fetch weather data.")
 
 
 if __name__ == "__main__":
