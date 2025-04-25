@@ -12,6 +12,7 @@ def fetch_weather_data(api_key):
         dict: A dictionary containing the weather data, or None if an error occurred.
     """
 
+    # Necessary until I start using my device
     lat = 45.58
     lon = 9.5
 
@@ -56,18 +57,18 @@ def extract_data(weather_data):
 
     try:
         # Extract data
-        #location_name = weather_data['location']['name']
-        lat = weather_data.get("coord", {}).get("lat", "N/A")
-        lon = weather_data.get("coord", {}).get("lon", "N/A")
         temperature_c = weather_data.get("main", {}).get("temp", "N/A")
-        condition_text = weather_data.get("weather", {})[0].get("description", "N/A")
+        pressure = weather_data.get("main", {}).get("pressure", "N/A")
+        humidity = weather_data.get("main", {}).get("humidity", "N/A")
+        wind_speed = weather_data.get("wind", {}).get("speed", "N/A")
+        condition_text = weather_data.get("weather", {})[0].get("main", "N/A")
 
         # Create a dictionary with the extracted data
         extracted_data = {
-            #'location_name': location_name,
-            'lat': lat,
-            'lon': lon,
             'temperature_c': temperature_c,
+            'pressure': pressure,
+            'humidity': humidity,
+            'wind_speed': wind_speed,
             'condition_text': condition_text
         }
 
