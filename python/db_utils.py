@@ -1,6 +1,18 @@
 from dotenv import load_dotenv
 import os
 from supabase import create_client, Client
+# from supabase import *
+import datetime
+
+"""
+mozda da imam jedan recnik koji nosi trenutne podatke, jedan koji nosi podatke: br ksinih dana, prosecna temp u to vreme,
+ovi potencijalni ekstremiteti (nemoj dva puta da brojis nesto ako se desava u istom danu) za ovaj mesec tj da bude
+recnik u recniku i da imam jos jedan recnik u tom recniku koji ce se odnositi na prosli mesec sa tim istim podacima i
+tako da se to odradi da je sve spremno kada se dodje do generisanja hmtl-a.
+
+
+moras da vidis u docsu kako se koristi filter i bice onda sve ok
+"""
 
 
 def init():
@@ -83,6 +95,281 @@ def get_data_from_database(supabase_client):
             return response.data
         else:
             print("Error fetching data from Supabase.")
+            return None
+
     except Exception as e:
         print(f"An error occured while retrieving data: {e}")
         return None
+
+def count_rainy_days(supabase_client, prev_flag = False):
+    """
+    Returns the number of rainy days in a current or previous month.
+
+    Args:
+        supabase_client (Client): Database connection.
+        prev_flag (bool): True if previous month's days should be counted.
+
+    Returns:
+        int: Number of rainy days in a current or previous month, depending on the flag.
+
+    Videcemo sta ce tacno vracati ova f-ja.
+    """
+
+    if not supabase_client:
+        print("Error: Supabase client is not initialized.")
+        return None
+
+    now = datetime.datetime.now()
+
+    current_month = now.month
+    current_year = now.year
+
+    # Ovde bi moglo da se pristedi na sistemskim pozivima da se negde pre poziva svih funkcija pozove now
+    if prev_flag:
+        current_month -= 1
+        if current_month == 0:
+            current_year -= 1
+
+    table_name = "weather_data"
+
+    try:
+        # Call stored function using RPC
+        response = supabase_client.rpc('get_rainy_days', {'current_month': current_month,
+                                                          'current_year' : current_year}).execute()
+
+        if response.data:
+            print(response.data)
+            return response.data
+        else:
+            # print("Error retrieving data from Supabase.")
+            return 0
+
+    except Exception as e:
+        print(f"An error occured while retrieving data: {e}")
+        return -1
+
+def hour_avg_temp(supabase_client, prev_flag = False):
+    """
+    Computes average temperature in Celsius during current or previous month's hour.
+
+    Args:
+        supabase_client (Client): Database connection.
+        prev_flag (bool): True if previous month's data should be used.
+
+    Returns:
+        float: Average temperature in Celsius during current or previous month's hour.
+
+    Videcemo hoce li ostati ovako
+    """
+
+    if not supabase_client:
+        print("Error: Supabase client is not initialized.")
+        return None
+
+    now = datetime.datetime.now()
+
+    current_hour = now.hour
+    current_month = now.month
+    current_year = now.year
+
+    # Ovde bi moglo da se pristedi na sistemskim pozivima da se negde pre poziva svih funkcija pozove now
+    if prev_flag:
+        current_month -= 1
+        if current_month == 0:
+            current_year -= 1
+
+    table_name = "weather_data"
+
+    try:
+        # Call stored function using RPC
+        response = supabase_client.rpc('hour_avg_temp', {'current_hour' : current_hour,
+                                                         'current_month': current_month,
+                                                         'current_year' : current_year
+                                                         }).execute()
+
+        if response.data:
+            print(response.data)
+            return response.data
+        else:
+            print("Error retrieving data from Supabase.")
+            return 0
+
+    except Exception as e:
+        print(f"An error occured while retrieving data: {e}")
+        return -1
+
+def day_max(supabase_client):
+    """
+    Retrieves today's maximum registered temperature in Celsius.
+
+    Args:
+        supabase_client (Client): Database connection.
+
+    Returns:
+        float: Maximum temperature in Celsius.
+    """
+
+    if not supabase_client:
+        print("Error: Supabase client is not initialized.")
+        return None
+
+    now = datetime.datetime.now()
+
+    current_day = now.day
+    current_month = now.month
+    current_year = now.year
+
+    try:
+        # Call stored function using RPC
+        response = supabase_client.rpc('day_max', {'current_day' : current_day,
+                                                   'current_month': current_month,
+                                                   'current_year' : current_year
+                                                   }).execute()
+
+        if response.data:
+            print(response.data)
+            return response.data
+        else:
+            print("Error retrieving data from Supabase.")
+            return None
+
+    except Exception as e:
+        print(f"An error occured while retrieving data: {e}")
+        return None
+
+
+def day_min(supabase_client):
+    """
+    Retrieves today's minimum registered temperature in Celsius.
+
+    Args:
+        supabase_client (Client): Database connection.
+
+    Returns:
+        float: minimum temperature in Celsius.
+    """
+
+    if not supabase_client:
+        print("Error: Supabase client is not initialized.")
+        return None
+
+    now = datetime.datetime.now()
+
+    current_day = now.day
+    current_month = now.month
+    current_year = now.year
+
+    try:
+        # Call stored function using RPC
+        response = supabase_client.rpc('day_min', {'current_day': current_day,
+                                                   'current_month': current_month,
+                                                   'current_year': current_year
+                                                   }).execute()
+
+        if response.data:
+            print(response.data)
+            return response.data
+        else:
+            print("Error retrieving data from Supabase.")
+            return None
+
+    except Exception as e:
+        print(f"An error occured while retrieving data: {e}")
+        return None
+
+def count_cold_days(supabase_client, prev_flag = False):
+    """
+    Returns the number of cold days in a current or previous month.
+
+    Args:
+        supabase_client (Client): Database connection.
+        prev_flag (bool): True if previous month's days should be counted.
+
+    Returns:
+        int: Number of cold days in a current or previous month, depending on the flag.
+
+    Videcemo sta ce tacno vracati ova f-ja.
+    """
+
+    if not supabase_client:
+        print("Error: Supabase client is not initialized.")
+        return None
+
+    now = datetime.datetime.now()
+
+    current_month = now.month
+    current_year = now.year
+
+    # Ovde bi moglo da se pristedi na sistemskim pozivima da se negde pre poziva svih funkcija pozove now
+    if prev_flag:
+        current_month -= 1
+        if current_month == 0:
+            current_year -= 1
+
+    table_name = "weather_data"
+
+    try:
+        # Call stored function using RPC
+        response = supabase_client.rpc('count_cold_days', {'current_month': current_month,
+                                                         'current_year' : current_year
+                                                         }).execute()
+
+        if response.data:
+            print(response.data)
+            return response.data
+        else:
+            # print("Error retrieving data from Supabase.")
+            return 0
+
+    except Exception as e:
+        print(f"An error occured while retrieving data: {e}")
+        return -1
+
+def count_warm_days(supabase_client, prev_flag = False):
+    """
+    Returns the number of warm days in a current or previous month.
+
+    Args:
+        supabase_client (Client): Database connection.
+        prev_flag (bool): True if previous month's days should be counted.
+
+    Returns:
+        int: Number of warm days in a current or previous month, depending on the flag.
+
+    Videcemo sta ce tacno vracati ova f-ja.
+    """
+
+    if not supabase_client:
+        print("Error: Supabase client is not initialized.")
+        return None
+
+    now = datetime.datetime.now()
+
+    current_month = now.month
+    current_year = now.year
+
+    # Ovde bi moglo da se pristedi na sistemskim pozivima da se negde pre poziva svih funkcija pozove now
+    if prev_flag:
+        current_month -= 1
+        if current_month == 0:
+            current_year -= 1
+
+    table_name = "weather_data"
+
+    try:
+        # Call stored function using RPC
+        response = supabase_client.rpc('count_warm_days', {'current_month': current_month,
+                                                         'current_year' : current_year
+                                                         }).execute()
+
+        if response.data:
+            print(response.data)
+            return response.data
+        else:
+            # print("Error retrieving data from Supabase.")
+            return 0
+
+    except Exception as e:
+        print(f"An error occured while retrieving data: {e}")
+        return -1
+

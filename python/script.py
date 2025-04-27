@@ -18,6 +18,18 @@ def main():
         print("Failed to fetch weather data.")
 
     db_weather_data = db.get_data_from_database(db_client)
+
+    test = db.count_rainy_days(db_client)
+
+    test2 = db.hour_avg_temp(db_client)
+
+    test3 = db.day_max(db_client)
+
+    test4 = db.day_min(db_client)
+
+    test5 = db.count_warm_days(db_client)
+    test6 = db.count_cold_days(db_client)
+
     if db_weather_data:
         html_content = dash_gen.generate_html(db_weather_data)
 
