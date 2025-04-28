@@ -159,7 +159,7 @@ def generate_html(weather_data):
                             <td>{weather_data.get('last_data', {})[i].get('hum', "N/A")}%</td>
                             <td>{"{:.2f}".format(round(weather_data.get('last_data', {})[i].get('wind', "N/A"), 2))}
                              m/s</td>
-                            <td>{weather_data.get('last_data', {})[i].get('press', "N/A")} mb</td>
+                            <td>{weather_data.get('last_data', {})[i].get('press', "N/A")} mbar</td>
                             <td>{weather_data.get('last_data', {})[i].get('condition', "N/A")}</td>
                         </tr>
                     """
@@ -174,8 +174,8 @@ def generate_html(weather_data):
                     <table>
                         <tr>
                             <th>Date</th>
-                            <th>Max Temp</th>
-                            <th>Min Temp</th>
+                            <th>Maximum Temperature</th>
+                            <th>Minimum Temperature</th>
                         </tr>
                 
         """
