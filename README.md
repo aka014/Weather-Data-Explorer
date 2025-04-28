@@ -70,9 +70,11 @@ The project uses a PostgreSQL database to store weather data. The database schem
         SUPABASE_URL=<your_supabase_url>
         SUPABASE_KEY=<your_supabase_key>
         API_KEY=<your_weather_api_key>
+        LAT=<your_latitude>
+        LON=<your_longitude>
         ```
 
-    * Replace the placeholder values with your actual database URL, key, and OpenWeatherMap API key.
+    * Replace the placeholder values with your actual database URL, key, OpenWeatherMap API key and location coordinates.
 
 
 4.  **Set up the database:**
