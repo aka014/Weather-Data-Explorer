@@ -16,10 +16,12 @@ The Weather Data Explorer is a web application that provides users with access t
     * Humidity
     * Wind speed
     * Pressure
-* **Historical Data:** Provides a table of historical weather data, including:
-    * Date
-    * Maximum Temperature
-    * Minimum Temperature
+* **Historical Data:**
+    * Provides a table of historical weather data for the past 24 hours, mirroring the current conditions data.
+    * Provides a table of historical weather data, including:
+        * Date
+        * Maximum Temperature
+        * Minimum Temperature
 * **Responsive Design:** The web application is designed to be responsive and viewable on different screen sizes.
 
 ## Technologies Used
@@ -41,7 +43,7 @@ The project uses a PostgreSQL database to store weather data. The database schem
 * `temperature_c`: Temperature in Celsius.
 * `humidity`: Humidity percentage.
 * `wind_speed`: Wind speed in kilometers per hour.
-* `pressure`: Pressure in hPa
+* `pressure`: Pressure in mbar.
 * `condition_text`: A short description of the weather condition.
 
 ## Setup Instructions

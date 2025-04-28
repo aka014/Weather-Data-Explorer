@@ -130,7 +130,7 @@ def generate_html(weather_data):
                     </div>
                     <div>
                         <p id="pressure">""" + str(weather_data.get('last_data', {})[0].
-                                                   get('press', "N/A")) + """ mb</p>
+                                                   get('press', "N/A")) + """ mbar</p>
                         <p>Pressure</p>
                     </div>
                 </div>
