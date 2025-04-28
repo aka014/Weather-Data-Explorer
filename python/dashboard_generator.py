@@ -149,7 +149,7 @@ def generate_html(weather_data):
         """)
 
     # Add rows for each weather data entry
-    for i in range(1, 12):
+    for i in range(0, 12):
         html_content += f"""
                          <tr>
                             <td>{weather_data.get('last_data', {})[i].get('d', "N/A")}</td>
@@ -206,21 +206,21 @@ def get_condition_image(condition_text):
     Returns the URL of the weather condition icon based on the condition text.
 
     Args:
-        condition_text (str): The weather condition text (e.g., "Sunny", "Cloudy", "Rain").
+        condition_text (str): The weather condition text (e.g., "Clear", "Clouds", "Rain").
 
     Returns:
         str: The URL of the corresponding weather icon.
     """
-    condition_text = condition_text.lower()  # Convert to lowercase for easier matching
-    if "sunny" in condition_text:
-        return "https://cdn.weatherapi.com/weather/64x64/day/113.png"  # Sunny
-    elif "Clouds" in condition_text:
-        return "https://cdn.weatherapi.com/weather/64x64/day/116.png"  # Cloudy
-    elif "Rain" in condition_text:
+
+    if "Clear" == condition_text:
+        return "https://cdn.weatherapi.com/weather/64x64/day/113.png"  # Clear
+    elif "Clouds" == condition_text:
+        return "https://cdn.weatherapi.com/weather/64x64/day/116.png"  # Clouds
+    elif "Rain" == condition_text:
         return "https://cdn.weatherapi.com/weather/64x64/day/302.png"  # Rain
-    elif "snow" in condition_text:
+    elif "Snow" == condition_text:
         return "https://cdn.weatherapi.com/weather/64x64/day/338.png"  # Snow
-    elif "thunder" in condition_text or "storm" in condition_text:
-        return "https://cdn.weatherapi.com/weather/64x64/day/200.png"  # Thundery
+    elif "Thunderstorm" == condition_text or "storm" in condition_text:
+        return "https://cdn.weatherapi.com/weather/64x64/day/200.png"  # Thunderstorm
     else:
-        return "https://cdn.weatherapi.com/weather/64x64/day/116.png"  # Default to cloudy if no match
+        return "https://cdn.weatherapi.com/weather/64x64/day/116.png"  # Default to Clouds if no match

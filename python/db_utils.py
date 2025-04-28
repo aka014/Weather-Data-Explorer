@@ -4,16 +4,6 @@ from supabase import create_client, Client
 # from supabase import *
 import datetime
 
-"""
-mozda da imam jedan recnik koji nosi trenutne podatke, jedan koji nosi podatke: br ksinih dana, prosecna temp u to vreme,
-ovi potencijalni ekstremiteti (nemoj dva puta da brojis nesto ako se desava u istom danu) za ovaj mesec tj da bude
-recnik u recniku i da imam jos jedan recnik u tom recniku koji ce se odnositi na prosli mesec sa tim istim podacima i
-tako da se to odradi da je sve spremno kada se dodje do generisanja hmtl-a.
-
-
-moras da vidis u docsu kako se koristi filter i bice onda sve ok
-"""
-
 
 def init():
     """

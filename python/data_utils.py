@@ -2,23 +2,20 @@ import requests
 import json
 import os
 
-def fetch_weather_data(api_key):
+def fetch_weather_data(env):
     """
     Fetches weather data from Wunderground (still not this one) API.
 
     Args:
-        api_key (str): The API key for the weather service.
+        env (dict): A dictionary containing lat, lon and API key for the weather service.
     Returns:
         dict: A dictionary containing the weather data, or None if an error occurred.
     """
 
-    # Necessary until I start using my device
-    lat = 45.58
-    lon = 9.5
-
     try:
         # Construct the API URL
-        api_url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
+        api_url = (f"https://api.openweathermap.org/data/2.5/weather?lat={env['lat']}&lon={env['lon']}" +
+                   f"&appid={env['api_key']}&units=metric")
 
         # Make the API request
         response = requests.get(api_url)
@@ -37,7 +34,10 @@ def fetch_weather_data(api_key):
 
 def get_api_key():
     api_key = os.environ.get("API_KEY")
-    return api_key
+    lat = os.environ.get("LAT")
+    lon = os.environ.get("LON")
+    result = {'api_key': api_key, 'lat': lat, 'lon': lon}
+    return result
 
 
 def extract_data(weather_data):
