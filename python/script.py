@@ -23,10 +23,6 @@ def main():
 
     test2 = db.hour_avg_temp(db_client)
 
-    test3 = db.day_max(db_client)
-
-    test4 = db.day_min(db_client)
-
     test5 = db.count_warm_days(db_client)
     test6 = db.count_cold_days(db_client)
 

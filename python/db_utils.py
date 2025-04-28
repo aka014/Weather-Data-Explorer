@@ -49,8 +49,8 @@ def store_weather_data(weather_data, supabase_client):
     """
 
     if not supabase_client:
-        print("Error: Supabase client is not initialized.")
-        return
+        print("Supabase client not initialized.")
+        return None
 
     table_name = "weather_data"
 
@@ -77,18 +77,36 @@ def get_data_from_database(supabase_client):
         supabase_client (Client): Database connection.
 
     Returns:
-        list: A list of dictionaries containing the weather data.
+        dict: A dictionary of lists containing the weather data.
     """
 
     if not supabase_client:
-        print("Error: Supabase client is not initialized. Data not retrieved.")
+        print("Supabase client not initialized.")
         return None
 
+    dictionary = {}
+
+    dictionary['seven_days'] = get_last_seven_days(supabase_client)
+    dictionary['last_data'] = get_last_data(supabase_client)
+
+    return dictionary
+
+def get_last_data(supabase_client):
+    """
+    Retrieves last 12 rows from the database.
+
+    Args:
+        supabase_client (Client): Database connection.
+
+    Returns: list: A list of dictionaries containing the last 12 rows.
+    """
+
     table_name = "weather_data"
+    # dictionary = {}
 
     try:
-        # Fetch all rows from the weather_data table
-        response = supabase_client.table(table_name).select("*").execute()
+        # Fetch last 12 rows from the weather_data table
+        response = supabase_client.rpc('get_last_data').execute()
 
         if response.data:
             print("Data successfully retrieved from Supabase.")
@@ -100,6 +118,36 @@ def get_data_from_database(supabase_client):
     except Exception as e:
         print(f"An error occured while retrieving data: {e}")
         return None
+
+
+def get_last_seven_days(supabase_client):
+    """
+        Retrieves some weather data for the previous seven days.
+
+        Args:
+            supabase_client (Client): Database connection.
+
+        Returns: list: A list of dictionaries containing the data.
+        """
+
+    table_name = "weather_data"
+    # dictionary = {}
+
+    try:
+        # Fetch last seven days' data from the weather_data table
+        response = supabase_client.rpc('get_last_seven_days', {}).execute()
+
+        if response.data:
+            print("Data successfully retrieved from Supabase.")
+            return response.data
+        else:
+            print("Error fetching data from Supabase.")
+            return None
+
+    except Exception as e:
+        print(f"An error occured while retrieving data: {e}")
+        return None
+
 
 def count_rainy_days(supabase_client, prev_flag = False):
     """
@@ -114,10 +162,6 @@ def count_rainy_days(supabase_client, prev_flag = False):
 
     Videcemo sta ce tacno vracati ova f-ja.
     """
-
-    if not supabase_client:
-        print("Error: Supabase client is not initialized.")
-        return None
 
     now = datetime.datetime.now()
 
@@ -148,6 +192,7 @@ def count_rainy_days(supabase_client, prev_flag = False):
         print(f"An error occured while retrieving data: {e}")
         return -1
 
+
 def hour_avg_temp(supabase_client, prev_flag = False):
     """
     Computes average temperature in Celsius during current or previous month's hour.
@@ -161,10 +206,6 @@ def hour_avg_temp(supabase_client, prev_flag = False):
 
     Videcemo hoce li ostati ovako
     """
-
-    if not supabase_client:
-        print("Error: Supabase client is not initialized.")
-        return None
 
     now = datetime.datetime.now()
 
@@ -198,84 +239,6 @@ def hour_avg_temp(supabase_client, prev_flag = False):
         print(f"An error occured while retrieving data: {e}")
         return -1
 
-def day_max(supabase_client):
-    """
-    Retrieves today's maximum registered temperature in Celsius.
-
-    Args:
-        supabase_client (Client): Database connection.
-
-    Returns:
-        float: Maximum temperature in Celsius.
-    """
-
-    if not supabase_client:
-        print("Error: Supabase client is not initialized.")
-        return None
-
-    now = datetime.datetime.now()
-
-    current_day = now.day
-    current_month = now.month
-    current_year = now.year
-
-    try:
-        # Call stored function using RPC
-        response = supabase_client.rpc('day_max', {'current_day' : current_day,
-                                                   'current_month': current_month,
-                                                   'current_year' : current_year
-                                                   }).execute()
-
-        if response.data:
-            print(response.data)
-            return response.data
-        else:
-            print("Error retrieving data from Supabase.")
-            return None
-
-    except Exception as e:
-        print(f"An error occured while retrieving data: {e}")
-        return None
-
-
-def day_min(supabase_client):
-    """
-    Retrieves today's minimum registered temperature in Celsius.
-
-    Args:
-        supabase_client (Client): Database connection.
-
-    Returns:
-        float: minimum temperature in Celsius.
-    """
-
-    if not supabase_client:
-        print("Error: Supabase client is not initialized.")
-        return None
-
-    now = datetime.datetime.now()
-
-    current_day = now.day
-    current_month = now.month
-    current_year = now.year
-
-    try:
-        # Call stored function using RPC
-        response = supabase_client.rpc('day_min', {'current_day': current_day,
-                                                   'current_month': current_month,
-                                                   'current_year': current_year
-                                                   }).execute()
-
-        if response.data:
-            print(response.data)
-            return response.data
-        else:
-            print("Error retrieving data from Supabase.")
-            return None
-
-    except Exception as e:
-        print(f"An error occured while retrieving data: {e}")
-        return None
 
 def count_cold_days(supabase_client, prev_flag = False):
     """
@@ -290,10 +253,6 @@ def count_cold_days(supabase_client, prev_flag = False):
 
     Videcemo sta ce tacno vracati ova f-ja.
     """
-
-    if not supabase_client:
-        print("Error: Supabase client is not initialized.")
-        return None
 
     now = datetime.datetime.now()
 
@@ -325,6 +284,7 @@ def count_cold_days(supabase_client, prev_flag = False):
         print(f"An error occured while retrieving data: {e}")
         return -1
 
+
 def count_warm_days(supabase_client, prev_flag = False):
     """
     Returns the number of warm days in a current or previous month.
@@ -338,10 +298,6 @@ def count_warm_days(supabase_client, prev_flag = False):
 
     Videcemo sta ce tacno vracati ova f-ja.
     """
-
-    if not supabase_client:
-        print("Error: Supabase client is not initialized.")
-        return None
 
     now = datetime.datetime.now()
 
