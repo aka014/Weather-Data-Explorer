@@ -26,20 +26,24 @@ def main():
 
         print(html_content)
 
-        with open("..\docs\index.html", "w") as f:
-           f.write(html_content)
-        print("Successfully generated HTML file.")
+        # with open("..\docs\index.html", "w") as f:
+        #    f.write(html_content)
+        # print("Successfully generated HTML file.")
 
-        # # Determine the base path and file path
-        # base_path = os.path.abspath("..")
-        # docs_path = os.path.join(base_path, "docs")
-        # file_path = os.path.join(docs_path, "index.html")
+        # Determine the base path and file path
+        base_path = os.path.abspath(".")
+        docs_path = os.path.join(base_path, "docs")
+        file_path = os.path.join(docs_path, "index.html")
 
-        # # Ensure the directory exists
-        # os.makedirs(docs_path, exist_ok=True)
+        # Ensure the directory exists
+        os.makedirs(docs_path, exist_ok=True)
         
-        # with open(file_path, "w") as f:
-        #     f.write(html_content)
+        with open(file_path, "w") as f:
+            f.write(html_content)
+
+        print("Written!")
+
+        
         
     else:
         print("Failed to retrieve weather data from Supabase.")
