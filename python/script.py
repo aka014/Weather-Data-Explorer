@@ -34,8 +34,14 @@ def main():
          #   f.write(html_content)
          #   print("Successfully generated HTML file.")
 
+        # Determine the base path and file path
         base_path = os.path.abspath("..")
-        file_path = os.path.join(base_path, "docs", "index.html")
+        docs_path = os.path.join(base_path, "docs")
+        file_path = os.path.join(docs_path, "index.html")
+
+        # Ensure the directory exists
+        os.makedirs(docs_path, exist_ok=True)
+        
         with open(file_path, "w") as f:
             f.write(html_content)
         
