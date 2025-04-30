@@ -30,11 +30,11 @@ jobs:
 
       - name: Debug secrets
         run: |
-          if [ -z "${{ secrets.API_KEY }}" ]; then echo "API_KEY is empty or undefined"; fi
-          if [ -z "${{ secrets.SUPABASE_URL }}" ]; then echo "SUPABASE_URL is empty or undefined"; fi
-          if [ -z "${{ secrets.SUPABASE_KEY }}" ]; then echo "SUPABASE_KEY is empty or undefined"; fi
-          if [ -z "${{ secrets.LAT }}" ]; then echo "LAT is empty or undefined"; fi
-          if [ -z "${{ secrets.LON }}" ]; then echo "LON is empty or undefined"; fi
+          echo "API_KEY: ${{ secrets.API_KEY }}"
+          echo "SUPABASE_URL: ${{ secrets.SUPABASE_URL }}"
+          echo "SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}"
+          echo "LAT: ${{ secrets.LAT }}"
+          echo "LON: ${{ secrets.LON }}"
 
       - name: Set environment variables from secrets
         run: |
@@ -43,7 +43,7 @@ jobs:
           echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> $GITHUB_ENV
           echo "LAT=${{ secrets.LAT }}" >> $GITHUB_ENV
           echo "LON=${{ secrets.LON }}" >> $GITHUB_ENV
-        shell: bash
+        
         
       # Step 4: Run the Python script
       - name: Run script.py
