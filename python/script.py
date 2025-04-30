@@ -1,6 +1,7 @@
 import data_utils as du
 import db_utils as db
 import dashboard_generator as dash_gen
+import os
 
 def main():
     db_client = db.init()
