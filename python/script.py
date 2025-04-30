@@ -1,6 +1,7 @@
 import data_utils as du
 import db_utils as db
 import dashboard_generator as dash_gen
+import os
 
 def main():
     db_client = db.init()
@@ -22,9 +23,27 @@ def main():
     if db_weather_data:
         html_content = dash_gen.generate_html(db_weather_data)
 
-        with open("..\docs\index.html", "w") as f:
+        print(html_content)
+
+        # with open("..\docs\index.html", "w") as f:
+        #    f.write(html_content)
+        # print("Successfully generated HTML file.")
+
+        # Determine the base path and file path
+        base_path = os.path.abspath(".")
+        docs_path = os.path.join(base_path, "docs")
+        file_path = os.path.join(docs_path, "index.html")
+
+        # Ensure the directory exists
+        os.makedirs(docs_path, exist_ok=True)
+        
+        with open(file_path, "w") as f:
             f.write(html_content)
-        print("Successfully generated HTML file.")
+
+        print("Written!")
+
+        
+        
     else:
         print("Failed to retrieve weather data from Supabase.")
 
