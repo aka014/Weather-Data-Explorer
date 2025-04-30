@@ -149,20 +149,21 @@ def generate_html(weather_data):
         """)
 
     # Add rows for each weather data entry
-    for i in range(0, 12):
-        html_content += f"""
-                         <tr>
-                            <td>{weather_data.get('last_data', {})[i].get('d', "N/A")}</td>
-                            <td>{weather_data.get('last_data', {})[i].get('t', "N/A").split('.')[0]}</td>
-                            <td>{"{:.2f}".format(round(weather_data.get('last_data', {})[i].get('temp', "N/A"), 2))}
-                            &degC</td>
-                            <td>{weather_data.get('last_data', {})[i].get('hum', "N/A")}%</td>
-                            <td>{"{:.2f}".format(round(weather_data.get('last_data', {})[i].get('wind', "N/A"), 2))}
-                             m/s</td>
-                            <td>{weather_data.get('last_data', {})[i].get('press', "N/A")} mbar</td>
-                            <td>{weather_data.get('last_data', {})[i].get('condition', "N/A")}</td>
-                        </tr>
-                    """
+    if weather_data.get('last_data', {}):
+        for i in range(0, 12):
+            html_content += f"""
+                             <tr>
+                                <td>{weather_data.get('last_data', {})[i].get('d', "N/A")}</td>
+                                <td>{weather_data.get('last_data', {})[i].get('t', "N/A").split('.')[0]}</td>
+                                <td>{"{:.2f}".format(round(weather_data.get('last_data', {})[i].get('temp', "N/A"), 2))}
+                                &degC</td>
+                                <td>{weather_data.get('last_data', {})[i].get('hum', "N/A")}%</td>
+                                <td>{"{:.2f}".format(round(weather_data.get('last_data', {})[i].get('wind', "N/A"), 2))}
+                                 m/s</td>
+                                <td>{weather_data.get('last_data', {})[i].get('press', "N/A")} mbar</td>
+                                <td>{weather_data.get('last_data', {})[i].get('condition', "N/A")}</td>
+                            </tr>
+                        """
 
 
 
@@ -181,14 +182,15 @@ def generate_html(weather_data):
         """
 
     # Add rows for each weather data entry
-    for data in weather_data.get('seven_days', {}):
-        html_content += f"""
-                         <tr>
-                            <td>{data.get('ts', 'N/A')}</td>
-                            <td>{"{:.2f}".format(round(data.get('min_temp', 'N/A'), 2))}&degC</td>
-                            <td>{"{:.2f}".format(round(data.get('max_temp', 'N/A'), 2))}&degC</td>
-                        </tr>
-                """
+    if weather_data.get('seven_days', {}):
+        for data in weather_data.get('seven_days', {}):
+            html_content += f"""
+                             <tr>
+                                <td>{data.get('ts', 'N/A')}</td>
+                                <td>{"{:.2f}".format(round(data.get('min_temp', 'N/A'), 2))}&degC</td>
+                                <td>{"{:.2f}".format(round(data.get('max_temp', 'N/A'), 2))}&degC</td>
+                            </tr>
+                    """
 
     html_content += """
                     </table>
