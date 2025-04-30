@@ -20,6 +20,9 @@ def init():
     supabase_url = os.environ.get("SUPABASE_URL")
     supabase_key = os.environ.get("SUPABASE_KEY")
 
+    print(supabase_url)
+    print(supabase_key)
+
     # Initialize Supabase client
     if supabase_url and supabase_key:
         supabase_client: Client = create_client(supabase_url, supabase_key)  # Type hint
