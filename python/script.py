@@ -28,7 +28,7 @@ def main():
 
         with open("..\docs\index.html", "w") as f:
            f.write(html_content)
-         print("Successfully generated HTML file.")
+        print("Successfully generated HTML file.")
 
         # # Determine the base path and file path
         # base_path = os.path.abspath("..")
