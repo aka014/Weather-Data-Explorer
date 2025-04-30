@@ -28,22 +28,15 @@ jobs:
         run: |
           pip install -r python/requirements.txt
 
-      - name: Debug secrets
-        run: |
-          echo "API_KEY: ${{ secrets.API_KEY }}"
-          echo "SUPABASE_URL: ${{ secrets.SUPABASE_URL }}"
-          echo "SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}"
-          echo "LAT: ${{ secrets.LAT }}"
-          echo "LON: ${{ secrets.LON }}"
-
       - name: Set environment variables from secrets
         run: |
           echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
           echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> $GITHUB_ENV
           echo "LAT=${{ secrets.LAT }}" >> $GITHUB_ENV
-          echo "LON=${{ secrets.LON }}" >> $GITHUB_ENV  
-
+          echo "LON=${{ secrets.LON }}" >> $GITHUB_ENV
+        shell: bash
+        
       # Step 4: Run the Python script
       - name: Run script.py
         run: |
