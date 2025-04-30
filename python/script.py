@@ -31,7 +31,8 @@ def main():
 
         with open("..\docs\index.html", "w") as f:
             f.write(html_content)
-        print("Successfully generated HTML file.")
+            print("Successfully generated HTML file.")
+        
     else:
         print("Failed to retrieve weather data from Supabase.")
 
