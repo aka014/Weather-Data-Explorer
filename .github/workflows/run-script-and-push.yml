@@ -1,6 +1,9 @@
 name: Update Index HTML
 
 on:
+  # Manual trigger
+  workflow_dispatch:
+
   schedule:
     # Run the workflow every 2 hours
     - cron: "0 */2 * * *"
