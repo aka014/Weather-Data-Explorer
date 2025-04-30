@@ -23,12 +23,6 @@ def main():
     if db_weather_data:
         html_content = dash_gen.generate_html(db_weather_data)
 
-        print(html_content)
-
-        # with open("..\docs\index.html", "w") as f:
-        #    f.write(html_content)
-        # print("Successfully generated HTML file.")
-
         # Determine the base path and file path
         base_path = os.path.abspath(".")
         docs_path = os.path.join(base_path, "docs")
@@ -40,10 +34,6 @@ def main():
         with open(file_path, "w") as f:
             f.write(html_content)
 
-        print("Written!")
-
-        
-        
     else:
         print("Failed to retrieve weather data from Supabase.")
 

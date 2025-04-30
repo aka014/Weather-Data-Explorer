@@ -202,10 +202,9 @@ def generate_html(weather_data):
         return html_content
 
     except Exception as e:
-        print("Error generating html due to lack of data")
-        return "Error generating html due to lack of data."
+        print("Error generating index.html due to the lack of data.")
+        return "Error generating index.html due to the lack of data."
 
-# Slike nisu dovrsene kako treba
 
 def get_condition_image(condition_text):
     """

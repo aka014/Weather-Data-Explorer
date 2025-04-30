@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 import os
 from supabase import create_client, Client
-# from supabase import *
 import datetime
 
 
@@ -92,7 +91,6 @@ def get_last_data(supabase_client):
     """
 
     table_name = "weather_data"
-    # dictionary = {}
 
     try:
         # Fetch last 12 rows from the weather_data table
@@ -121,7 +119,6 @@ def get_last_seven_days(supabase_client):
         """
 
     table_name = "weather_data"
-    # dictionary = {}
 
     try:
         # Fetch last seven days' data from the weather_data table
