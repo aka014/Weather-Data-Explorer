@@ -1,40 +1,29 @@
 name: Update Index HTML
 
 on:
-  # Manual trigger
   workflow_dispatch:
-
   schedule:
-    # Run the workflow every 2 hours
     - cron: "0 */2 * * *"
 
 jobs:
   update-index:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
-      # Step 1: Check out the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9.13'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           pip install -r python/requirements.txt
-
-      - name: Debug secrets
-        run: |
-          echo "API_KEY: ${{ secrets.API_KEY }}"
-          echo "SUPABASE_URL: ${{ secrets.SUPABASE_URL }}"
-          echo "SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}"
-          echo "LAT: ${{ secrets.LAT }}"
-          echo "LON: ${{ secrets.LON }}"
 
       - name: Set environment variables from secrets
         run: |
@@ -43,29 +32,26 @@ jobs:
           echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> $GITHUB_ENV
           echo "LAT=${{ secrets.LAT }}" >> $GITHUB_ENV
           echo "LON=${{ secrets.LON }}" >> $GITHUB_ENV
-        
-        
-      # Step 4: Run the Python script
-      - name: Run script.py
+
+      - name: Run script
         run: |
           python python/script.py
 
-      # Step 5: Commit and push changes
-      # - name: Commit and push changes
-      #   run: |
-      #     git config --global user.name "GitHub Actions Bot"
-      #     git config --global user.email "actions@github.com"
-      #     git add docs/index.html
-      #     git commit -m "Update docs/index.html (automated)"
-      #     git push
+      - name: Debug repository state
+        run: |
+          ls -R docs/
+          git status
+          git diff
 
-      - name: Force Git to detect changes
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+      - name: Commit and push changes
         run: |
           git add -A
-          git status
-          git diff --cached  # Debug: Show changes staged for commit
           git commit -m "Update docs/index.html (automated)" || echo "No changes to commit"
           git push
         env:
-          # GitHub token provided by the Actions runner for authentication
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
