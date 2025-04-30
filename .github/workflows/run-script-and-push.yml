@@ -28,6 +28,14 @@ jobs:
         run: |
           pip install -r python/requirements.txt
 
+      - name: Debug secrets
+        run: |
+          if [ -z "${{ secrets.API_KEY }}" ]; then echo "API_KEY is empty or undefined"; fi
+          if [ -z "${{ secrets.SUPABASE_URL }}" ]; then echo "SUPABASE_URL is empty or undefined"; fi
+          if [ -z "${{ secrets.SUPABASE_KEY }}" ]; then echo "SUPABASE_KEY is empty or undefined"; fi
+          if [ -z "${{ secrets.LAT }}" ]; then echo "LAT is empty or undefined"; fi
+          if [ -z "${{ secrets.LON }}" ]; then echo "LON is empty or undefined"; fi
+
       - name: Set environment variables from secrets
         run: |
           echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
