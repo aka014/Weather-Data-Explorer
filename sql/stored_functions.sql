@@ -96,14 +96,16 @@ RETURNS TABLE (ts DATE, min_temp FLOAT, max_temp FLOAT) AS $$
 BEGIN
   RETURN QUERY
     SELECT 
-      date(created_at) as ts,  
+      date(created_at) as ts,  -- Cast to date to group correctly
       min(temperature_c)::float as min_temp,
       max(temperature_c)::float as max_temp
     FROM weather_data
-    WHERE created_at >= now() - interval '8 days'  
-      AND created_at < now() - interval '1 day'   
-    GROUP BY date(weather_data.created_at)  
+    WHERE created_at >= now() - interval '8 days'  -- Get last 8 days to include yesterday
+      --AND created_at < now() - interval '1 day'    -- Exclude today
+    GROUP BY date(weather_data.created_at)  -- Group by the date
     ORDER BY ts desc
-    LIMIT 7;
+    LIMIT 7
+    offset 1
+    ;
 END;
 $$ LANGUAGE plpgsql
