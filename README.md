@@ -80,13 +80,24 @@ The project uses a PostgreSQL database to store weather data. The database schem
 4.  **Set up the database:**
 
     * Ensure that your database is set up with the necessary schema.
+    
+5.  **Requirements**
 
-5.  **Run the application:**
+    * This project uses a `requirements.txt` file to manage its Python dependencies. Follow the steps below to set up the project:
+
+        1. Ensure you have Python **3.9** (or compatible versions like **3.9.13**) installed. You can download Python from [python.org](https://www.python.org/).
+
+        2. Install the dependencies listed in `requirements.txt` using the following command:
+
+    ```bash
+    pip install -r python/requirements.txt
+
+6.  **Run the application:**
 
     ```
-    python main.py
+    python python/script.py
     ```
 
-6.  **View the dashboard:**
+7.  **View the dashboard:**
 
     * Open the `index.html` file in your web browser.
