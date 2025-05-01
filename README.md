@@ -50,7 +50,7 @@ The project uses a PostgreSQL database to store weather data. The database schem
 
 1.  **Prerequisites:**
 
-    * Python 3.x
+    * Python 3.9
     * A PostgreSQL database.
     * A OpenWeatherMap API account and API key.
 
