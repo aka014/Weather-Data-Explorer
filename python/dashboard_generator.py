@@ -176,8 +176,8 @@ def generate_html(weather_data):
                         <table>
                             <tr>
                                 <th>Date</th>
-                                <th>Maximum Temperature</th>
                                 <th>Minimum Temperature</th>
+                                <th>Maximum Temperature</th>
                             </tr>
                     
             """
