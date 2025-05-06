@@ -10,6 +10,7 @@ The Weather Data Explorer is a web application that provides users with access t
 * **Database Storage:** Stores weather data in a database.
 * **Data Retrieval:** Retrieves weather data from the database for display.
 * **HTML Generation:** Generates an HTML page to visualize the weather data.
+* **Automated Updates:**  Automatically updates the weather data every two hours using GitHub Actions.
 * **Current Conditions:** Displays current weather conditions, including:
     * Condition icon and description
     * Temperature
@@ -23,6 +24,10 @@ The Weather Data Explorer is a web application that provides users with access t
         * Maximum Temperature
         * Minimum Temperature
 * **Responsive Design:** The web application is designed to be responsive and viewable on different screen sizes.
+
+## Automated Updates
+
+The `script.py` file is run every two hours through a scheduled GitHub Actions workflow. This automation ensures that the weather data displayed on the dashboard is always up-to-date. The workflow is configured in `.github/workflows/run-script-and-push.yml`.
 
 ## Technologies Used
 
@@ -101,3 +106,7 @@ The project uses a PostgreSQL database to store weather data. The database schem
 7.  **View the dashboard:**
 
     * Open the `index.html` file in your web browser.
+
+## Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
