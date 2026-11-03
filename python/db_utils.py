@@ -58,6 +58,40 @@ def store_weather_data(weather_data, supabase_client):
     except Exception as e:
         print(f"An error occured while storing data: {e}")
 
+def delete_old_weather_data(supabase_client, days=10):
+    """
+    Deletes weather rows older than the given number of days.
+
+    Args:
+        supabase_client (Client): Database connection.
+        days (int): Rows with created_at before this many days are removed.
+    """
+
+    if not supabase_client:
+        print("Supabase client not initialized.")
+        return None
+
+    cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)
+    cutoff_iso = cutoff.isoformat()
+    table_name = "weather_data"
+    total_deleted = 0
+
+    try:
+        for _ in range(20):
+            response = (
+                supabase_client.table(table_name)
+                .delete()
+                .lt("created_at", cutoff_iso)
+                .execute()
+            )
+            deleted_rows = response.data or []
+            if not deleted_rows:
+                break
+            total_deleted += len(deleted_rows)
+        print(f"Deleted {total_deleted} rows older than {days} days.")
+    except Exception as e:
+        print(f"An error occured while deleting old data: {e}")
+
 def get_data_from_database(supabase_client):
     """
     Retrieves weather data from the database.

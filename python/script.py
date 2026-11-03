@@ -18,6 +18,8 @@ def main():
     else:
         print("Failed to fetch weather data.")
 
+    db.delete_old_weather_data(db_client)
+
     db_weather_data = db.get_data_from_database(db_client)
 
     if db_weather_data:
