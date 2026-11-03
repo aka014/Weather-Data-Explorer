@@ -55,7 +55,7 @@ The project uses a PostgreSQL database to store weather data. The database schem
 
 1.  **Prerequisites:**
 
-    * Python 3.9
+    * Python 3.12
     * A PostgreSQL database.
     * A OpenWeatherMap API account and API key.
 
@@ -90,7 +90,7 @@ The project uses a PostgreSQL database to store weather data. The database schem
 
     * This project uses a `requirements.txt` file to manage its Python dependencies. Follow the steps below to set up the project:
 
-        1. Ensure you have Python **3.9** (or compatible versions like **3.9.13**) installed. You can download Python from [python.org](https://www.python.org/).
+        1. Ensure you have Python **3.12** installed. You can download Python from [python.org](https://www.python.org/).
 
         2. Install the dependencies listed in `requirements.txt` using the following command:
 
